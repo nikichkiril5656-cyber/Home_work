@@ -1,0 +1,29 @@
+import requests
+import vk_api
+from vk_api.longpoll import VkLongPoll, VkEventType
+import time
+
+TOKEN = "vk1.a.O0qrOC6K-_mojW28i8zVQlKUuaxgeOC8CAmvGioOT5s37axshiV9dCLf1QFrClFmHZVNRKsNDW8_P75kKP-y_Li6y2BluYZcA7L8FToJ9w5SEM0T9ED2YtL4Xfr-9vIaf4C7lSClQRjaqL8h7HE4FjZuxA7FY9jRt9n5BUrsi13HIWP2sZuX1q5cXr-B5s60zgU1JL-rJ0t0hLLIAXCYPw"
+
+
+def get_currency_rates():
+    url = "https://www.cbr-xml-daily.ru/daily_json.js"
+    response = requests.get(url)
+    data = response.json()
+
+    usd_rate = data["Valute"]["USD"]["Value"]
+    eur_rate = data["Valute"]["EUR"]["Value"]
+
+    return f"Доллар: {usd_rate} ₽\nЕвро: {eur_rate} ₽"
+
+
+vk_session = vk_api.VkApi(token=TOKEN)
+longpoll = VkLongPoll(vk_session)
+
+for event in longpoll.listen():
+    if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+        vk_session.get_api().messages.send(
+            user_id=event.user_id,
+            message=get_currency_rates(),
+            random_id=int(time.time())
+        )
