@@ -1,0 +1,5 @@
+[
+  {"name": "Ноутбук", "price": 50000, "category": "Техника", "in_stock": true},
+  {"name": "Книга", "price": 500, "category": "Литература", "in_stock": true},
+  {"name": "Смартфон", "price": 30000, "category": "Техника", "in_stock": false}
+]
