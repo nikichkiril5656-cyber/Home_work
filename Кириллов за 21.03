@@ -1,0 +1,9 @@
+import telebot
+
+bot = telebot.TeleBot("8792303668:AAFHomTDTwQ0igtLHF7hGswCuMv5GEhDsfo")
+
+@bot.message_handler(commands=['info'])
+def main(message):
+    bot.send_message(chat_id=message.chat.id, text=message)
+
+bot.polling(none_stop=True)
